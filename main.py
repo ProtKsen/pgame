@@ -81,8 +81,9 @@ def main():
             transition()
 
         # check if the game should be continued
-        my_print('Продолжить игру?')
+        my_print(exit_question)
         ext_ans = get_correct_answer('1', '2')
+        clear()
         if ext_ans == '2':
             ext = True
 
@@ -96,7 +97,7 @@ def main():
     # game over
     f_out = open('records.txt', 'a')
     today = datetime.datetime.today()
-    f_out.write(today.strftime("%Y-%m-%d-%H.%M.%S") + ' ' +
+    f_out.write(today.strftime("%d-%m-%Y %H.%M") + ' ' +
                 name + ' ' + str(player.money) + '\n')
     f_out.close()
     if win:

@@ -55,12 +55,13 @@ def hire_command(player, team, oracle_answer_str, n_island):
     # buy
     exit_from_tavern = False
     while player.money > 0 and exit_from_tavern is False:
+        clear()
         print(texts.separator)
         print(team.inform)
         print(player.inform)
-        print('Ты собираешься плыть на остров ' + str(n_island) + '.')
+        print('Ты собираешься плыть на остров ' + str(n_island) + '.', sep='')
         if oracle_answer_str:
-            print('Помни, что сказал оракул:', oracle_answer_str)
+            print('Помни, что сказал оракул:\n', oracle_answer_str, sep='')
         print(texts.separator)
         print('В таверне сидят:')
         ans = [str(i + 1) for i in range(len(pirates_list) + 1)]
@@ -68,7 +69,7 @@ def hire_command(player, team, oracle_answer_str, n_island):
             print(i + 1, ' - ', pirates_list[i].name, '.\n',
                   'Логика: ', pirates_list[i].logic, ', ',
                   'сила: ', pirates_list[i].power, ', ',
-                  'ловкость: ', pirates_list[i].agility, '.\n',
+                  'ловкость: ', pirates_list[i].agility, '. ',
                   'Цена найма: ', pirates_list[i].salary,
                   coins(pirates_list[i].salary), sep='')
             print('------------------')

@@ -37,10 +37,10 @@ def main():
     clear()
     my_print(introduction)
     transition()
-    win, lose = False, False
+    win, lose, ext = False, False, False
     current_island = 1
 
-    while not (win or lose):
+    while not (win or lose or ext):
         # oracle
         my_print(player.inform,
                  'На очереди остров ' + str(current_island) + '.', sep='\n')
@@ -80,6 +80,12 @@ def main():
             my_print(failure_step, sep='\n')
             transition()
 
+        # check if the game should be continued
+        my_print('Продолжить игру?')
+        ext_ans = get_correct_answer('1', '2')
+        if ext_ans == '2':
+            ext = True
+
         # check win or lose
         team.reset_command()
         if player.money < 1:
@@ -98,7 +104,7 @@ def main():
     elif lose:
         my_print(losing)
     else:
-        print('Error')
+        print('Конец игры.')
 
 
 if __name__ == '__main__':

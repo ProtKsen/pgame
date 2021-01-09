@@ -51,8 +51,8 @@ def hire_command(player, team, oracle_answer_str, n_island):
         new_pirate = Pirate(texts.names[randint(0, len(texts.names) - 1)],
                             randint(0, n_island + 1), randint(0, n_island + 1),
                             randint(0, n_island + 1), 0)
-        new_pirate.salary = randint(1, new_pirate.logic + new_pirate.power
-                                    + new_pirate.agility + 1)
+        skills_sum = new_pirate.logic + new_pirate.power + new_pirate.agility
+        new_pirate.salary = randint(max(1, skills_sum - 3), skills_sum + 1)
         pirates_list.append(new_pirate)
 
     # buy

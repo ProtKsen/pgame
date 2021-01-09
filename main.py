@@ -90,7 +90,7 @@ def main():
         team.reset_command()
         if player.money < 1:
             lose = True
-        elif current_island == number_of_islands + 1:
+        elif n_current_island == number_of_islands + 1:
             win = True
 
     # game over
@@ -99,6 +99,7 @@ def main():
     f_out.write(today.strftime("%d-%m-%Y %H.%M") + ' ' +
                 name + ' ' + str(player.money) + '\n')
     f_out.close()
+    print(player.inform)
     if win:
         my_print(winning)
     elif lose:

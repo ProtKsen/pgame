@@ -1,6 +1,7 @@
 """The main functions of interaction with the player."""
-from add_functions import *
 from random import randint
+from add_functions import get_correct_answer, clear, coins
+from texts import separator, oracle_question_1, oracle_question_2, names
 from classes import Pirate
 
 
@@ -13,12 +14,12 @@ def ask_oracle(player, island):
     oracle_answer = ''
     if player.money >= 3:
         print(player.inform)
-        print(texts.oracle_question_1)
-        print(texts.separator)
+        print(oracle_question_1)
+        print(separator)
         answer = get_correct_answer('1', '2', '3', '4', '5')
     else:
         print(player.inform)
-        print(texts.oracle_question_2)
+        print(oracle_question_2)
         answer = get_correct_answer('1', '2', '3', '4')
     if answer == '2':
         oracle_answer = 'необходимое количество очков логики ' +\
@@ -48,7 +49,7 @@ def hire_command(player, team, oracle_answer_str, n_island):
     team's skills in case of hiring."""
     pirates_list = []
     for i in range(7):
-        new_pirate = Pirate(texts.names[randint(0, len(texts.names) - 1)],
+        new_pirate = Pirate(names[randint(0, len(names) - 1)],
                             randint(0, n_island + 1), randint(0, n_island + 1),
                             randint(0, n_island + 1), 0)
         skills_sum = new_pirate.logic + new_pirate.power + new_pirate.agility
@@ -59,13 +60,13 @@ def hire_command(player, team, oracle_answer_str, n_island):
     exit_from_tavern = False
     while player.money > 0 and exit_from_tavern is False:
         clear()
-        print(texts.separator)
+        print(separator)
         print(team.inform)
         print(player.inform)
         print('Ты собираешься плыть на остров ' + str(n_island) + '.', sep='')
         if oracle_answer_str:
             print('Помни, что сказал оракул:\n', oracle_answer_str, sep='')
-        print(texts.separator)
+        print(separator)
         print('В таверне сидят:')
         ans = [str(i + 1) for i in range(len(pirates_list) + 1)]
         for i in range(len(pirates_list)):
@@ -77,7 +78,7 @@ def hire_command(player, team, oracle_answer_str, n_island):
                   coins(pirates_list[i].salary), sep='')
             print('------------------')
         print(len(pirates_list) + 1, ' - Команда собрана, уйти из таверны')
-        print(texts.separator)
+        print(separator)
         player_answer = get_correct_answer(*ans)
         if player_answer == ans[-1]:
             exit_from_tavern = True

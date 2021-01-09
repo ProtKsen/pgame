@@ -4,11 +4,13 @@ Made for the competition https://vk.com/wall-193480984_1163
 I believe it's strategy.
 """
 import datetime
-import interactions
-from add_functions import *
-from texts import *
-from classes import Player, Team
 from random import randint
+from interactions import ask_oracle, hire_command, check_attack
+from add_functions import get_correct_answer, clear, printing, transition
+from texts import greeting, name_question, choose_level, introduction, \
+    oracle_question, separator, go_tavern_text, success_step, failure_step, \
+    exit_question, winning, losing
+from classes import Player, Team
 
 
 def main():
@@ -47,8 +49,10 @@ def main():
         skill_logic = randint(0, n_current_island)
         skill_power = randint(0, n_current_island - skill_logic)
         skill_agility = n_current_island - skill_logic - skill_power
-        current_island = [skill_logic, skill_power, skill_agility,
-                          n_current_island * level]
+        current_island = [
+            skill_logic, skill_power,
+            skill_agility, n_current_island * level
+            ]
 
         # oracle
         my_print(player.inform,
@@ -60,7 +64,7 @@ def main():
         oracle_answer_str = ''
         if go_oracle == '1':
             print(separator)
-            oracle_answer_str = interactions.ask_oracle(player, current_island)
+            oracle_answer_str = ask_oracle(player, current_island)
             transition()
             if oracle_answer_str:
                 my_print('После долгих ритуалов оракул говорит, что ',
@@ -73,13 +77,13 @@ def main():
         # tavern
         my_print(go_tavern_text)
         transition()
-        interactions.hire_command(player, team, oracle_answer_str, n_current_island)
+        hire_command(player, team, oracle_answer_str, n_current_island)
         transition()
 
         # strike
         my_print(team.inform, 'Вперед, на остров!', sep='\n')
         transition()
-        diff = interactions.check_attack(current_island, team)
+        diff = check_attack(current_island, team)
         if diff[0] <= 0 and diff[1] <= 0 and diff[2] <= 0:
             player.money += current_island[3]
             n_current_island += 1

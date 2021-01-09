@@ -3,6 +3,7 @@
 Made for the competition https://vk.com/wall-193480984_1163
 I believe it's strategy.
 """
+import datetime
 import interactions
 from add_functions import *
 from texts import *
@@ -31,6 +32,9 @@ def main():
     my_print = printing(print)
     my_print(greeting)
     transition()
+    my_print(name_question)
+    name = input()
+    clear()
     my_print(introduction)
     transition()
     win, lose = False, False
@@ -43,7 +47,7 @@ def main():
         transition()
         my_print(oracle_question)
         go_oracle = get_correct_answer('1', '2')
-        transition()
+        clear()
         oracle_answer_str = ''
         if go_oracle == '1':
             print(separator)
@@ -84,6 +88,11 @@ def main():
             win = True
 
     # game over
+    f_out = open('records.txt', 'a')
+    today = datetime.datetime.today()
+    f_out.write(today.strftime("%Y-%m-%d-%H.%M.%S") + ' ' +
+                name + ' ' + str(player.money) + '\n')
+    f_out.close()
     if win:
         my_print(winning)
     elif lose:

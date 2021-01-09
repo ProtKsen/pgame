@@ -16,17 +16,10 @@ def main():
     # parameters affecting the difficulty
     start_money = 7
     number_of_islands = 10
-    island_treasure = [3 * i for i in range(1, 11)]
 
-    # initialization of a player and islands
+    # initialization of a player and team
     player = Player(money=start_money)
     team = Team()
-    islands = []
-    for i in range(1, number_of_islands + 1):
-        skill_logic = randint(0, i)
-        skill_power = randint(0, i - skill_logic)
-        skill_agility = i - skill_logic - skill_power
-        islands.append([skill_logic, skill_power, skill_agility, island_treasure[i - 1]])
 
     # start game
     my_print = printing(print)
@@ -38,12 +31,18 @@ def main():
     my_print(introduction)
     transition()
     win, lose, ext = False, False, False
-    current_island = 1
+    n_current_island = 1
 
     while not (win or lose or ext):
+        # initialization of island
+        skill_logic = randint(0, n_current_island)
+        skill_power = randint(0, n_current_island - skill_logic)
+        skill_agility = n_current_island - skill_logic - skill_power
+        current_island = [skill_logic, skill_power, skill_agility, n_current_island]
+
         # oracle
         my_print(player.inform,
-                 'На очереди остров ' + str(current_island) + '.', sep='\n')
+                 'На очереди остров ' + str(n_current_island) + '.', sep='\n')
         transition()
         my_print(oracle_question)
         go_oracle = get_correct_answer('1', '2')
@@ -51,7 +50,7 @@ def main():
         oracle_answer_str = ''
         if go_oracle == '1':
             print(separator)
-            oracle_answer_str = interactions.ask_oracle(player, islands[current_island - 1])
+            oracle_answer_str = interactions.ask_oracle(player, current_island)
             transition()
             if oracle_answer_str:
                 my_print('После долгих ритуалов оракул говорит, что ',
@@ -64,16 +63,16 @@ def main():
         # tavern
         my_print(go_tavern_text)
         transition()
-        interactions.hire_command(player, team, oracle_answer_str, current_island)
+        interactions.hire_command(player, team, oracle_answer_str, n_current_island)
         transition()
 
         # strike
         my_print(team.inform, 'Вперед, на остров!', sep='\n')
         transition()
-        diff = interactions.check_attack(islands[current_island - 1], team)
+        diff = interactions.check_attack(current_island, team)
         if diff[0] <= 0 and diff[1] <= 0 and diff[2] <= 0:
-            player.money += islands[current_island - 1][3]
-            current_island += 1
+            player.money += current_island[3]
+            n_current_island += 1
             my_print(success_step, sep='\n')
             transition()
         else:
@@ -91,7 +90,7 @@ def main():
         team.reset_command()
         if player.money < 1:
             lose = True
-        elif current_island == 11:
+        elif current_island == number_of_islands + 1:
             win = True
 
     # game over

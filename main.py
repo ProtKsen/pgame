@@ -94,11 +94,12 @@ def main():
             win = True
 
     # game over
-    f_out = open('records.txt', 'a')
-    today = datetime.datetime.today()
-    f_out.write(today.strftime("%d-%m-%Y %H.%M") + ' ' +
-                name + ' ' + str(player.money) + '\n')
-    f_out.close()
+    with open('records.txt', 'a') as f_out:
+        today = datetime.datetime.today()
+        f_out.write(today.strftime("%d-%m-%Y %H.%M") + ' | ' +
+                    'Player: ' + name + ', ' + 'coins: ' +
+                    str(player.money) + ', islands passed: ' +
+                    str(n_current_island - 1) + '\n')
     print(player.inform)
     if win:
         my_print(winning)

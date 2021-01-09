@@ -38,7 +38,7 @@ def main():
         skill_logic = randint(0, n_current_island)
         skill_power = randint(0, n_current_island - skill_logic)
         skill_agility = n_current_island - skill_logic - skill_power
-        current_island = [skill_logic, skill_power, skill_agility, n_current_island]
+        current_island = [skill_logic, skill_power, skill_agility, n_current_island * 3]
 
         # oracle
         my_print(player.inform,

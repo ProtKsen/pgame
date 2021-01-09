@@ -28,6 +28,15 @@ def main():
     my_print(name_question)
     name = input()
     clear()
+    my_print(choose_level)
+    level = get_correct_answer('1', '2', '3')
+    if level == '1':
+        level = 4
+    elif level == '2':
+        level = 3
+    else:
+        level = 2
+    clear()
     my_print(introduction)
     transition()
     win, lose, ext = False, False, False
@@ -38,7 +47,8 @@ def main():
         skill_logic = randint(0, n_current_island)
         skill_power = randint(0, n_current_island - skill_logic)
         skill_agility = n_current_island - skill_logic - skill_power
-        current_island = [skill_logic, skill_power, skill_agility, n_current_island * 3]
+        current_island = [skill_logic, skill_power, skill_agility,
+                          n_current_island * level]
 
         # oracle
         my_print(player.inform,

@@ -1,5 +1,5 @@
 """All used classes."""
-from add_functions import coins
+from utilities import coins
 
 
 class Player:

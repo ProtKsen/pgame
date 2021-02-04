@@ -1,6 +1,6 @@
 """The main functions of interaction with the player."""
 from random import randint
-from add_functions import get_correct_answer, clear, coins
+from utilities import get_correct_answer, clear, coins
 from texts import SEPARATOR, ORACLE_QUESTION_1, ORACLE_QUESTION_2, NAMES
 from classes import Pirate
 

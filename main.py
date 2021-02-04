@@ -6,7 +6,7 @@ I believe it's strategy.
 import datetime
 from random import randint
 from interactions import ask_oracle, hire_command, check_attack
-from add_functions import get_correct_answer, clear, printing, transition
+from utilities import get_correct_answer, clear, printing, transition
 from texts import GREETING, NAME_QUESTION, CHOOSE_LEVEL, INTRODUCTION, \
     ORACLE_QUESTION, SEPARATOR, GO_TAVERN_TEXT, SUCCESS_STEP, FAILURE_STEP, \
     EXIT_QUESTION, WINNING, LOSING

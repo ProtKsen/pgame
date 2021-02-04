@@ -42,11 +42,9 @@ def coins(n):
     """Printing the correct form of the word."""
     base = ' монет'
     end = ''
-    d = n % 10
-    if d == 0 or 5 <= d <= 10 or 11 <= n % 100 <= 14:
-        end = ''
-    elif d == 1:
-        end = 'a'
-    elif 2 <= d <= 4 or 12 <= d <= 14:
-        end = 'ы'
+    if n % 100 not in [11, 12, 13, 14]:
+        if n % 10 == 1:
+            end = 'a'
+        elif 2 <= n % 10 <= 4:
+            end = 'ы'
     return base + end

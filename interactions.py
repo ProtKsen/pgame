@@ -95,11 +95,9 @@ def hire_command(player, team, oracle_answer_str, n_island):
 def check_attack(island, team):
     """Checking if the team has enough skills.
 
-    Returns a list of Logic, Strength, and Agility
-    points differences. Between those that were
-    needed and those that actually were.
+    Returns boolean variable.
     """
-    l = island[0] - team.logic
-    p = island[1] - team.power
-    a = island[2] - team.agility
-    return [l, p, a]
+    l = team.logic - island[0]
+    p = team.power - island[1]
+    a = team.agility - island[2]
+    return min(l, p, a) >= 0

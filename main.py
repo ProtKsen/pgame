@@ -83,8 +83,8 @@ def main():
         # strike
         my_print(team.inform, 'Вперед, на остров!', sep='\n')
         transition()
-        diff = check_attack(current_island, team)
-        if diff[0] <= 0 and diff[1] <= 0 and diff[2] <= 0:
+        is_success = check_attack(current_island, team)
+        if is_success:
             player.money += current_island[3]
             n_current_island += 1
             my_print(SUCCESS_STEP, sep='\n')

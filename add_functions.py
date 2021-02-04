@@ -1,6 +1,6 @@
 """Some additional functions."""
 import os
-from texts import separator, cont_game
+from texts import SEPARATOR, CONT_GAME
 
 
 def clear():
@@ -12,15 +12,15 @@ def printing(f_print):
     """Changing the standard print function."""
     def inner(*args, **kwargs):
         """Printing text in the separator's frame."""
-        print(separator)
+        print(SEPARATOR)
         f_print(*args, **kwargs)
-        print(separator)
+        print(SEPARATOR)
     return inner
 
 
 def transition():
     """Transition to the next window."""
-    input(cont_game)
+    input(CONT_GAME)
     clear()
 
 

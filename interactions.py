@@ -11,34 +11,31 @@ def ask_oracle(player, island):
     Return a response of the oracle as a string.
     Change the number of player's money.
     """
-    oracle_answer = ''
     if player.money >= 3:
         print(player.inform)
         print(ORACLE_QUESTION_1)
         print(SEPARATOR)
-        answer = get_correct_answer('1', '2', '3', '4', '5')
+        player_answer = get_correct_answer('1', '2', '3', '4', '5')
     else:
         print(player.inform)
         print(ORACLE_QUESTION_2)
-        answer = get_correct_answer('1', '2', '3', '4')
-    if answer == '2':
-        oracle_answer = 'необходимое количество очков логики ' +\
-                        str(island[0]) + '.'
-        player.money -= 1
-    elif answer == '3':
-        oracle_answer = 'необходимое количество очков силы ' +\
-                        str(island[1]) + '.'
-        player.money -= 1
-    elif answer == '4':
-        oracle_answer = 'необходимое количество очков ловкости ' +\
-                        str(island[2]) + '.'
-        player.money -= 1
-    elif answer == '5':
-        oracle_answer = 'необходимое количество очков логики, силы и ловкости '\
-                        + str(island[0]) + ', ' + str(island[1]) + ' и ' \
-                        + str(island[2]) + ' соответственно.'
-        player.money -= 3
-    return oracle_answer
+        player_answer = get_correct_answer('1', '2', '3', '4')
+    oracle_answer = {
+        '2': ['необходимое количество очков логики ' + str(island[0]) + '.'],
+        '3': ['необходимое количество очков силы ' + str(island[1]) + '.'],
+        '4': ['необходимое количество очков ловкости ' + str(island[2]) + '.'],
+        '5': ['необходимое количество очков логики, силы и ловкости ' \
+              + str(island[0]) + ', ' + str(island[1]) + ' и ' \
+              + str(island[2]) + ' соответственно.']
+    }
+    cost = {
+        '2': 1,
+        '3': 1,
+        '4': 1,
+        '5': 3
+    }
+    player.money -= cost.get(player_answer, 0)
+    return oracle_answer.get(player_answer, '')
 
 
 def hire_command(player, team, oracle_answer_str, n_island):

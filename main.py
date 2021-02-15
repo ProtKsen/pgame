@@ -11,9 +11,10 @@ from texts import GREETING, NAME_QUESTION, CHOOSE_LEVEL, INTRODUCTION, \
     ORACLE_QUESTION, SEPARATOR, GO_TAVERN_TEXT, SUCCESS_STEP, FAILURE_STEP, \
     EXIT_QUESTION, WINNING, LOSING
 from classes import Player, Team
-
+from Game import Game
 
 def main():
+    print_in_frame = printing(print)
     clear()
     # parameters affecting the difficulty
     START_MONEY = 7
@@ -22,79 +23,42 @@ def main():
     # initialization of a player and team
     player = Player(money=START_MONEY)
     team = Team()
+    game = Game(player, team)
 
-    # start game
-    my_print = printing(print)
-    my_print(GREETING)
+    game.greet_player()
     transition()
-    my_print(NAME_QUESTION)
-    name = input()
-    clear()
-    my_print(CHOOSE_LEVEL)
-    level = get_correct_answer('1', '2', '3')
-    if level == '1':
-        level = 4
-    elif level == '2':
-        level = 3
-    else:
-        level = 2
-    clear()
-    my_print(INTRODUCTION)
+    game.ask_name()
+    transition()
+    game.choose_difficulty_level()
+    transition()
+    game.print_introduction()
     transition()
     win, lose, ext = False, False, False
     n_current_island = 1
 
     while not (win or lose or ext):
-        # initialization of island
-        skill_logic = randint(0, n_current_island)
-        skill_power = randint(0, n_current_island - skill_logic)
-        skill_agility = n_current_island - skill_logic - skill_power
-        current_island = [
-            skill_logic, skill_power,
-            skill_agility, n_current_island * level
-        ]
-
-        # oracle
-        my_print(player.inform,
-                 'На очереди остров ' + str(n_current_island) + '.', sep='\n')
+        game.initialize_islands()
+        go_oracle = game.ask_about_oracle()
         transition()
-        my_print(ORACLE_QUESTION)
-        go_oracle = get_correct_answer('1', '2')
-        clear()
+
         oracle_answer_str = ''
         if go_oracle == '1':
-            print(SEPARATOR)
-            oracle_answer_str = ask_oracle(player, current_island)
-            transition()
-            if oracle_answer_str:
-                my_print('После долгих ритуалов оракул говорит, что ',
-                         oracle_answer_str, sep='\n')
-            transition()
+            game.talk_with_oracle()
             if player.money < 1:
                 lose = True
                 break
 
         # tavern
-        my_print(GO_TAVERN_TEXT)
-        transition()
-        hire_command(player, team, oracle_answer_str, n_current_island)
+        game.action_in_tavern()
         transition()
 
         # strike
-        my_print(team.inform, 'Вперед, на остров!', sep='\n')
+        print_in_frame(team.inform, 'Вперед, на остров!', sep='\n')
         transition()
-        is_success = check_attack(current_island, team)
-        if is_success:
-            player.money += current_island[3]
-            n_current_island += 1
-            my_print(SUCCESS_STEP, sep='\n')
-            transition()
-        else:
-            my_print(FAILURE_STEP, sep='\n')
-            transition()
+        game.try_get_chest()
 
         # check if the game should be continued
-        my_print(EXIT_QUESTION)
+        print_in_frame(EXIT_QUESTION)
         ext_ans = get_correct_answer('1', '2')
         clear()
         if ext_ans == '2':
@@ -104,21 +68,21 @@ def main():
         team.reset_command()
         if player.money < 1:
             lose = True
-        elif n_current_island == NUMBER_OF_ISLANDS + 1:
+        elif game.n_current_island == NUMBER_OF_ISLANDS + 1:
             win = True
 
     # game over
     with open('records.txt', 'a') as f_out:
         today = datetime.datetime.today()
         f_out.write(today.strftime("%d-%m-%Y %H.%M") + ' | ' +
-                    'Player: ' + name + ', ' + 'coins: ' +
+                    'Player: ' + game.player_name + ', ' + 'coins: ' +
                     str(player.money) + ', islands passed: ' +
                     str(n_current_island - 1) + '\n')
     print(player.inform)
     if win:
-        my_print(WINNING)
+        print_in_frame(WINNING)
     elif lose:
-        my_print(LOSING)
+        print_in_frame(LOSING)
     else:
         print('Конец игры.')
 

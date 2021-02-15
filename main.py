@@ -4,24 +4,21 @@ Made for the competition https://vk.com/wall-193480984_1163
 I believe it's strategy.
 """
 import datetime
-from random import randint
-from interactions import ask_oracle, hire_command, check_attack
 from utilities import get_correct_answer, clear, printing, transition
-from texts import GREETING, NAME_QUESTION, CHOOSE_LEVEL, INTRODUCTION, \
-    ORACLE_QUESTION, SEPARATOR, GO_TAVERN_TEXT, SUCCESS_STEP, FAILURE_STEP, \
-    EXIT_QUESTION, WINNING, LOSING
+from texts import EXIT_QUESTION, WINNING, LOSING
 from classes import Player, Team
 from Game import Game
+
 
 def main():
     print_in_frame = printing(print)
     clear()
     # parameters affecting the difficulty
-    START_MONEY = 7
-    NUMBER_OF_ISLANDS = 10
+    start_money = 7
+    number_of_islands = 10
 
     # initialization of a player and team
-    player = Player(money=START_MONEY)
+    player = Player(money=start_money)
     team = Team()
     game = Game(player, team)
 
@@ -33,15 +30,15 @@ def main():
     transition()
     game.print_introduction()
     transition()
+
     win, lose, ext = False, False, False
     n_current_island = 1
-
     while not (win or lose or ext):
         game.initialize_islands()
+
+        # oracle
         go_oracle = game.ask_about_oracle()
         transition()
-
-        oracle_answer_str = ''
         if go_oracle == '1':
             game.talk_with_oracle()
             if player.money < 1:
@@ -68,7 +65,7 @@ def main():
         team.reset_command()
         if player.money < 1:
             lose = True
-        elif game.n_current_island == NUMBER_OF_ISLANDS + 1:
+        elif game.n_current_island == number_of_islands + 1:
             win = True
 
     # game over
@@ -79,6 +76,7 @@ def main():
                     str(player.money) + ', islands passed: ' +
                     str(n_current_island - 1) + '\n')
     print(player.inform)
+
     if win:
         print_in_frame(WINNING)
     elif lose:

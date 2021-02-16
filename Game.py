@@ -2,8 +2,7 @@ from random import randint
 from interactions import ask_oracle, hire_command, check_attack
 from utilities import get_correct_answer, clear, printing, transition
 from texts import GREETING, NAME_QUESTION, CHOOSE_LEVEL, INTRODUCTION, \
-    ORACLE_QUESTION, SEPARATOR, GO_TAVERN_TEXT, SUCCESS_STEP, FAILURE_STEP, \
-    EXIT_QUESTION, WINNING, LOSING
+    ORACLE_QUESTION, GO_TAVERN_TEXT, SUCCESS_STEP, FAILURE_STEP
 
 print_in_frame = printing(print)
 
@@ -48,18 +47,15 @@ class Game():
         ]
 
     def ask_about_oracle(self):
-        print_in_frame(self.player.inform,
-                 'На очереди остров ' + str(self.n_current_island) + '.', sep='\n')
         print_in_frame(ORACLE_QUESTION)
         return get_correct_answer('1', '2')
 
     def talk_with_oracle(self):
         self.oracle_answer_str = ask_oracle(self.player, self.current_island)
-        transition()
         if self.oracle_answer_str:
             print_in_frame('После долгих ритуалов оракул говорит, что ',
-                     self.oracle_answer_str, sep='\n')
-        transition()
+                           self.oracle_answer_str, sep='\n')
+        clear()
 
     def action_in_tavern(self):
         print_in_frame(GO_TAVERN_TEXT)

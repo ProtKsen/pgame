@@ -10,11 +10,13 @@ def clear():
 
 def printing(f_print):
     """Changing the standard print function."""
+
     def inner(*args, **kwargs):
         """Printing text in the separator's frame."""
         print(SEPARATOR)
         f_print(*args, **kwargs)
         print(SEPARATOR)
+
     return inner
 
 

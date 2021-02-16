@@ -25,9 +25,9 @@ def main():
     game.greet_player()
     transition()
     game.ask_name()
-    transition()
+    clear()
     game.choose_difficulty_level()
-    transition()
+    clear()
     game.print_introduction()
     transition()
 
@@ -36,14 +36,18 @@ def main():
     while not (win or lose or ext):
         game.initialize_islands()
 
+        print_in_frame(player.inform,
+                       'На очереди остров ' + str(n_current_island) + '.', sep='\n')
+        transition()
         # oracle
         go_oracle = game.ask_about_oracle()
-        transition()
+        clear()
         if go_oracle == '1':
             game.talk_with_oracle()
             if player.money < 1:
                 lose = True
                 break
+        transition()
 
         # tavern
         game.action_in_tavern()
@@ -71,7 +75,7 @@ def main():
     # game over
     with open('records.txt', 'a') as f_out:
         today = datetime.datetime.today()
-        f_out.write(today.strftime("%d-%m-%Y %H.%M") + ' | ' +
+        f_out.write(today.strftime("%d-%m-%Y %H:%M") + ' | ' +
                     'Player: ' + game.player_name + ', ' + 'coins: ' +
                     str(player.money) + ', islands passed: ' +
                     str(n_current_island - 1) + '\n')
